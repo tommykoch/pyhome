@@ -18,7 +18,7 @@ def index():
 
 @app.route("/status", methods=["GET"])
 def status():
-    import os
+    import os, time
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     details  = { 'temperature':  21.5,  # TODO
