@@ -7,6 +7,9 @@ app = Flask(__name__)
 elro_key = [1,0,0,0,1]
 # change the pin(s) accpording to your wiring
 elro_pin =17
+# status file for motion detection
+motionfile = "motion.txt"
+
 
 @app.route('/')
 def index():
@@ -15,13 +18,16 @@ def index():
 
 @app.route("/status", methods=["GET"])
 def status():
+    import os
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     details  = { 'temperature':  21.5,  # TODO
                         'time': timeString,
-                        'motion':  timeString, # TODO: read status of PIR sensor
-                        #  'webcam': '',
-                        }
+                        #  TODO : 'webcam': '<path-to-file>,
+    }
+    # read status of PIR sensor
+    if os.path.exists(motionfile):
+        details['motion'] =  time.ctime(os.path.getmtime(motionfile))
     return jsonify(**details)
 
 
