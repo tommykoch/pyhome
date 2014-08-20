@@ -29,9 +29,25 @@ Next install the required Python dependencies via
 Usage
 -----
 
+If you want to use webcam support you need to install fswebcam:
+
+    $ sudo aptitude install fswebcam
+
+Otherwise set webcam = False in home.py
+
+If you want to use the motion sensor (and have a PIR sensor connected) run
+
+    $ cd web
+    $ sudo python sensor.py
+
+to start the sensor (keep this running in a shell).
+
+Finally start the web frontend via
+
     $ cd web
     $ sudo python home.py 
     $ open http://127.0.0.1:8080/
+    
 
 Credits
 -------
