@@ -31,11 +31,12 @@ def status():
         details['motion'] = time.ctime(os.path.getmtime(motionfile))
     if webcam:
         import sh, os
+        timeString = now.strftime("%Y%m%d_%H%M")
         snapshot = "snapshot-%s.jpg" % timeString
-        snapshot = os.path.abspath(os.path.join("static","webcam", snapshot))
+        snapshot = os.path.join("static", "webcam", snapshot)
+        details['webcam'] = '/'+snapshot
+        snapshot = os.path.abspath(snapshot)
         sh.fswebcam("--title", "Home", "--save", snapshot)
-        details['webcam'] = snapshot
-
     return jsonify(**details)
 
 
@@ -49,13 +50,14 @@ def turn(switch):
         details.update({'time': timeString})
     return jsonify(**details)
 
+
 def  turnSwitch(switch, on=False):
     from elro import  RemoteSwitch
     devices = { 'A': 1, 'B': 2, 'C': 4, 'D': 8, 'E':16 }
     device=devices.get(switch, 0)
     if not device:
         return False
-    print "turn switch '%s' to '%s' - device#%d"  % (switch, "on" if on else "off", device)
+    # print "turn switch '%s' to '%s' - device#%d"  % (switch, "on" if on else "off", device)
     device = RemoteSwitch(device,
                                              key=elro_key,
                                              pin=elro_pin)
