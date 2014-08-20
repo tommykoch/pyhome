@@ -9,6 +9,8 @@ elro_key = [1,0,0,0,1]
 elro_pin =17
 # status file for motion detection
 motionfile = "motion.txt"
+# enable webcam support
+webcam = True
 
 
 @app.route('/')
@@ -22,12 +24,18 @@ def status():
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     details  = { 'temperature':  21.5,  # TODO
-                        'time': timeString,
-                        #  TODO : 'webcam': '<path-to-file>,
+                       'time': timeString   # update time
     }
     # read status of PIR sensor
     if os.path.exists(motionfile):
-        details['motion'] =  time.ctime(os.path.getmtime(motionfile))
+        details['motion'] = time.ctime(os.path.getmtime(motionfile))
+    if webcam:
+        import sh, os
+        snapshot = "snapshot-%s.jpg" % timeString
+        snapshot = os.path.abspath(os.path.join("static","webcam", snapshot))
+        sh.fswebcam("--title", "Home", "--save", snapshot)
+        details['webcam'] = snapshot
+
     return jsonify(**details)
 
 
@@ -59,4 +67,4 @@ def  turnSwitch(switch, on=False):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)

@@ -35,12 +35,11 @@ class PIRSensor(GPIOSensor):
     def motion_detected(self):
         """check for motion detected"""
         now = time()
-        if (self.last_check is None or self.state is None 
+        if (self.last_check is None or self.state is None
             or now-self.last_check > delta_time):
             last_check = now
             last_state = self.state
             new_state = self.check()
-         
             if last_state and new_state:
                 # two events "High"
                 motion = True
@@ -50,9 +49,7 @@ class PIRSensor(GPIOSensor):
         return motion
 
 
-# TODO: Thread to monitor sensor
 # write state = last motion into file
-
 def touch(fname=motionfile, times=None):
     with open(fname, 'a'):
         os.utime(fname, times)
@@ -66,7 +63,7 @@ if __name__ == "__main__":
         while(True):
             if sensor.motion_detected():
                 motiondetected = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-                print "\nmotiondetected: %s" % motiondetected
+                # print "\nmotiondetected: %s" % motiondetected
                 touch()  # simply update motion file's timestamp
             sleep(default_wait)
     #Ctrl+C
