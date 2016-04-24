@@ -31,7 +31,7 @@ Usage
 
 If you want to use webcam support you need to install fswebcam:
 
-    $ sudo aptitude install fswebcam
+    $ sudo apt-get install fswebcam
 
 Otherwise set webcam = False in home.py
 
