@@ -1,16 +1,15 @@
 from time import time, gmtime, strftime, sleep
 import RPi.GPIO as io
 import os, sys
+from config import SENSOR_FILE, SENSOR_PIN, SENSOR_WAIT
 
-default_pin = 18
 default_state = 0
-default_wait  = 2  # 2 seconds polling intervall
+default_wait  = SENSOR_WAIT  # seconds polling intervall
 delta_time = 5     # 5 seconds to wait until next motion
-motionfile = "motion.txt"
 
 class  GPIOSensor(object):
 
-    def __init__(self, pin=default_pin, state=default_state):
+    def __init__(self, pin=SENSOR_PIN, state=default_state):
         self.pin = pin
         self.state = default_state
         self.changed = None  #  date of last (detected) state change
@@ -28,9 +27,11 @@ class  GPIOSensor(object):
 
 class PIRSensor(GPIOSensor):
 
-    def __init__(self, pin=default_pin, state=default_state):
+    def __init__(self, pin=SENSOR_PIN, fname=SENSOR_FILE,
+                 state=default_state):
         super(PIRSensor, self).__init__(pin, state)
         self.last_check = None
+        self.fname = fname
 
     def motion_detected(self):
         """check for motion detected"""
@@ -44,15 +45,17 @@ class PIRSensor(GPIOSensor):
                 # two events "High"
                 motion = True
                 self.state = False # reset
+                self.touch()
             else:
                 motion = False
         return motion
 
+    # write state = last motion into file
+    def touch(self, times=None):
+        # simply update motion file's timestamp
+        with open(self.fname, 'a'):
+            os.utime(self.fname, times)
 
-# write state = last motion into file
-def touch(fname=motionfile, times=None):
-    with open(fname, 'a'):
-        os.utime(fname, times)
 
 if __name__ == "__main__":
     # create  PIR sensor
@@ -63,8 +66,7 @@ if __name__ == "__main__":
         while(True):
             if sensor.motion_detected():
                 motiondetected = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-                # print "\nmotiondetected: %s" % motiondetected
-                touch()  # simply update motion file's timestamp
+                print "\nmotiondetected: %s" % motiondetected
             sleep(default_wait)
     #Ctrl+C
     except KeyboardInterrupt:

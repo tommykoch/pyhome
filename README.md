@@ -9,7 +9,7 @@ https://programm.froscon.de/2014/events/1467.html - see slides (in German) at ht
 Requirements
 ------------
 
-You'd need a Raspberry Pi with Raspbian OS and Python. PyHome requires Python 2.6 or 2.7 and Flask (python web framework) and RPi.GPIO (Python GPIO interface for Raspberry Pi). The Web GUI uses jQuery Mobile (1.4.3) but the minified JS files are included in this repository for convenience.
+You'd need a Raspberry Pi with Raspbian OS and Python. PyHome requires Python 2.7 and Flask (python web framework) and RPi.GPIO (Python GPIO interface for Raspberry Pi). The Web GUI uses jQuery Mobile (1.4.5) but the minified JS files are included in this repository for convenience.
 
 
 In order to control switches you will need a 433.92 MHz transmitter and 'Elro compatible' switches.

@@ -2,8 +2,23 @@
 Simple Home Automation Server
 jQuery Mobile Frontend
 
-Thomas Koch, 2014
+Thomas Koch, 2014-2020
 */
+
+
+function toggleAlarm(flag) {
+    // call http request to toggle alarm
+    $.ajax({
+           type: "POST",
+           url: "/alarm/"+encodeURIComponent(flag),
+           data: {},
+           dataType: "json",
+           success: function(data) {
+              $("#statusupdate").html("<span class='updateMessage'>" + data.time +"</span>");
+           }
+       });
+};
+
 
 function toggleSwitch(swt, turn) {
     // call http request to toggle switch
@@ -37,6 +52,14 @@ function updateStatus() {
     });
 };
 
+function initAlarmSwitch() {
+    //  connect flip button handler
+    $('select#switchAlarm').change(function() {
+        var val = $('select#switchAlarm').val();
+        toggleAlarm(val);
+    });
+};
+
 function initSwitches() {
     //  connect flip button handler
     $('select#switchA').change(function() {
@@ -60,6 +83,7 @@ $(document).on('pageinit', '#switches', function() {
 
 $(document).on('pageinit', '#motion', function(){
     // alert('Pageinit: Motion');
+    initAlarmSwitch();
     $("#refresh").click(function(e){
         e.preventDefault();
         updateStatus();
