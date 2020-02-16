@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Automation</title>
+    <!---
+      Simple Home Automation Server
+      jQuery Mobile Frontend
+      Thomas Koch, 2014-2020
+      skeleton page designed with https://01.org/rib/online/
+    -->
+    <link href="/static/lib/jquery.mobile-1.4.5.min.css" rel="stylesheet">
+    <link href="/static/lib/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet">
+    <link href="/static/lib/jquery.mobile.theme-1.4.5.min.css" rel="stylesheet">
+    <script src="/static/lib/jquery-1.11.3.min.js"></script>
+    <script src="/static/lib/jquery.mobile-1.4.5.min.js"></script>
+    <script src="/static/home/home.js"></script>
+</head>
+<body>
+
+    <div data-role="page" id="home" data-title="Home">
+            <div data-role="header" data-position="fixed" >
+                <h1>Start</h1>
+            </div>
+            <div data-role="content">
+                <div data-role="controlgroup">
+                    <a data-role="button" id="goswitches"  data-icon="grid" href="#switches">Schalter</a>
+                    <a data-role="button" id="gomotion"  data-icon="eye" href="#motion">Kontrolle</a>
+                </div>
+            </div>
+    </div>
+
+    <div data-role="page" id="motion" data-title="Bewegung">
+            <div data-role="header" data-position="fixed" >
+                <h1>Kontrolle</h1>
+                <a data-role="button" id="back" data-rel="back" data-icon="arrow-l" data-mini="true" data-theme="a">zur&uuml;ck</a>
+            </div>
+            <div data-role="content">
+                {% if sensor %}
+                <div data-role="collapsible" data-collapsed='false'>
+                    <h3 id="label">Bewegung</h3>
+                    <img id="alarm" valign="middle" src="/static/lib/images/icons-png/clock-black.png" alt="alarm">
+                    &nbsp; <span id="lastmotion">keine</span>
+                </div>
+                {% endif %}
+                {% if webcam %}
+                <div data-role="collapsible" data-collapsed='true'>
+                    <h3>WebCam</h3>
+                    <img id="webcam" src="/static/lib/images/icons-png/camera-black.png" alt="snapshot">
+                </div>
+                {% endif %}
+                {% if alarm %}
+                <div data-role="collapsible" data-collapsed='true'>
+                    <h3>Alarm</h3>
+                    <select data-role="slider" id="switchAlarm">
+                        <option value="off">Aus</option>
+                        <option value="on">An</option>
+                    </select>
+                </div>
+                {% endif %}
+                {% if temperature %}
+                <div data-role="collapsible" data-collapsed='true'>
+                    <h3>Wetter</h3>
+                    <img id="weather" valign="middle" src="/static/lib/images/icons-png/cloud-black.png" alt="weather">
+                     &nbsp; <span id="temperature">--</span> &deg; C
+                </div>
+                {% endif %}
+                <a data-role="button" id="refresh" data-icon="refresh" data-mini="true">Aktualisieren</a>
+            </div>
+            <div data-role="footer" data-position="fixed" >
+                <h4>Stand:  <span id= "statusupdate"></span></h4>
+             </div>
+    </div>
+
+    <div data-role="page" id="switches">
+            <div data-role="header" data-position="fixed" >
+                <h1>Schalter</h1>
+                <a data-role="button" id="back" data-rel="back" data-icon="arrow-l" data-mini="true" data-theme="a">zur&uuml;ck</a>
+            </div>
+            <div data-role="content">
+                {% if switches.A %}
+                <div class="div-widget" id="divA">
+                    <label id="labela"  for="switchA">Schalter A</label>
+                    <select data-role="slider" id="switchA">
+                        <option value="off">Aus</option>
+                        <option value="on">An</option>
+                    </select>
+                </div>
+                {% endif %}
+                {% if switches.B %}
+                <div class="div-widget" id="divB">
+                    <label id="labelb"  for="switchB">Schalter B</label>
+                    <select data-role="slider" id="switchB">
+                        <option value="off">Aus</option>
+                        <option value="on">An</option>
+                    </select>
+                </div>
+                {% endif %}
+                {% if switches.C %}
+                <div class="div-widget" id="divC">
+                    <label id="labelc" for="switchC">Schalter C</label>
+                    <select data-role="slider" id="switchC">
+                        <option value="off">Aus</option>
+                        <option value="on">An</option>
+                    </select>
+                </div>
+                {% endif %}
+                <div data-role="footer" data-position="fixed" >
+                    <h4>Letzte Aktion:  <span id= "switchupdate"></span></h4>
+             </div>
+            </div>
+    </div>
+
+  </body>
+</html>
