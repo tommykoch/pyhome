@@ -1,4 +1,4 @@
-Flask==0.10.1
+Flask==1.0
 RPi.GPIO==0.6.2
 sh==1.11
 w1thermsensor==0.3.1
